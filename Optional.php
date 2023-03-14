@@ -34,7 +34,7 @@ class Optional
     public function orThrow()
     {
         if ($this->isEmpty()) {
-            throw new \Exception("Empty value");
+            throw new EmptyValueException("Empty value");
         }
 
         return $this->value;

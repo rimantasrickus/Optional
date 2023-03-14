@@ -2,10 +2,10 @@
 
 include_once 'FilterInterface.php';
 
-class EmptyStringFilter implements FilterInterface
+class ZeroIntFilter implements FilterInterface
 {
     public function isEmpty(string|int|float|null $value): bool
     {
-        return $value === '';
+        return $value === 0;
     }
 }
