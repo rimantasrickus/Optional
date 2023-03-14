@@ -22,7 +22,7 @@ class Optional
         return $this;
     }
 
-    public function orEmpty(string|int|float $default)
+    public function orEmpty(string|int|float $default): string|int|float
     {
         if ($this->isEmpty()) {
             return $default;
@@ -31,7 +31,10 @@ class Optional
         return $this->value;
     }
 
-    public function orThrow()
+    /**
+     * @throws EmptyValueException
+     */
+    public function orThrow(): string|int|float
     {
         if ($this->isEmpty()) {
             throw new EmptyValueException("Empty value");
