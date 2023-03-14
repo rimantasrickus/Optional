@@ -10,7 +10,7 @@ Additionally to this check you can add your own filter class to check for exampl
 include 'Optional.php';
 include 'ZeroIntFilter.php';
 
-$optional = new optional(rand(0, 1));
+$optional = new Optional(rand(0, 1));
 
 printf(
     'value: %s',
