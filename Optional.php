@@ -43,7 +43,7 @@ class Optional
         return $this->value;
     }
 
-    protected function isEmpty()
+    protected function isEmpty(): bool
     {
         if ($this->filter) {
             return $this->filter->isEmpty($this->value) || is_null($this->value);
