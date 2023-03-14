@@ -10,15 +10,6 @@ Additionally to this check you can add your own filter class to check for exampl
 include 'Optional.php';
 include 'ZeroIntFilter.php';
 
-function test(int $val): Optional
-{
-    if ($val > 5) {
-        return new Optional($val);
-    }
-
-    return new Optional(0);
-}
-
 $optional = new optional(rand(0, 1));
 
 printf(
