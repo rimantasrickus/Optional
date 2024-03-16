@@ -1,6 +1,7 @@
 <?php
 
 include_once 'EmptyValueException.php';
+include_once 'Filters/IsNullFilter.php';
 
 /**
  * Simple class to add Optional type for scalar values.
@@ -85,7 +86,7 @@ class Optional
     public function isEmpty(): bool
     {
         if (count($this->filters) === 0) {
-            return is_null($this->value);
+            $this->withFilter(new IsNullFilter());
         }
 
         foreach ($this->filters as $filter) {
