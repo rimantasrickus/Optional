@@ -16,5 +16,5 @@ printf(
     'value: %s',
     $optional
         ->withFilter(new ZeroIntFilter())
-        ->orEmpty('empty')
+        ->orDefault('empty')
 );

@@ -1,5 +1,7 @@
 <?php
 
+include_once 'EmptyValueException.php';
+
 /**
  * Simple class to add Optional type for scalar values.
  * Before returning value it will always check if value is null.
@@ -9,20 +11,57 @@
  */
 class Optional
 {
+    private array $filters = [];
+
     public function __construct(
-        private string|int|float|null $value,
-        private ?FilterInterface $filter = null
+        private mixed $value,
     ) {
     }
 
     public function withFilter(FilterInterface $filter): self
     {
-        $this->filter = $filter;
+        $this->withFilters([$filter]);
 
         return $this;
     }
 
-    public function orEmpty(string|int|float $default): string|int|float
+    public function addFilter(FilterInterface $filter): self
+    {
+        $this->addFilters([$filter]);
+
+        return $this;
+    }
+
+    /**
+     * @param array<FilterInterface> $filters
+     *
+     * @return self
+     */
+    public function withFilters(array $filters): self
+    {
+        $this->filters = [];
+        $this->addFilters($filters);
+
+        return $this;
+    }
+
+    /**
+     * @param array<FilterInterface> $filters
+     *
+     * @return self
+     */
+    public function addFilters(array $filters): self
+    {
+        foreach ($filters as $filter) {
+            if ($filter instanceof FilterInterface) {
+                $this->filters[] = $filter;
+            }
+        }
+
+        return $this;
+    }
+
+    public function orDefault(mixed $default): mixed
     {
         if ($this->isEmpty()) {
             return $default;
@@ -34,7 +73,7 @@ class Optional
     /**
      * @throws EmptyValueException
      */
-    public function orThrow(): string|int|float
+    public function value(): mixed
     {
         if ($this->isEmpty()) {
             throw new EmptyValueException("Empty value");
@@ -43,12 +82,18 @@ class Optional
         return $this->value;
     }
 
-    protected function isEmpty(): bool
+    public function isEmpty(): bool
     {
-        if ($this->filter) {
-            return $this->filter->isEmpty($this->value) || is_null($this->value);
+        if (count($this->filters) === 0) {
+            return is_null($this->value);
         }
 
-        return is_null($this->value);
+        foreach ($this->filters as $filter) {
+            if ($filter->isEmpty($this->value)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

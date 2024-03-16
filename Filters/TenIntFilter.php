@@ -2,10 +2,10 @@
 
 include_once 'FilterInterface.php';
 
-class EmptyStringFilter implements FilterInterface
+class TenIntFilter implements FilterInterface
 {
     public function isEmpty(mixed $value): bool
     {
-        return $value === '';
+        return $value === 10;
     }
 }
