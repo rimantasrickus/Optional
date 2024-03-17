@@ -1,17 +1,23 @@
 <?php
 
-include_once 'EmptyValueException.php';
-include_once 'Filters/IsNullFilter.php';
+namespace Optional;
+
+include_once '../vendor/autoload.php';
+
+use Optional\Filters\IsNullFilter;
+use Optional\Interfaces\FilterInterface;
+use Optional\Exceptions\EmptyValueException;
 
 /**
- * Simple class to add Optional type for scalar values.
- * Before returning value it will always check if value is null.
- * Additionally to this check you can add your own filter class to check for example for empty strings.
+ * Simple class to add Optional type for mixed values.
+ * If there are no other filters added, null check is the default check.
+ * Additionally to this check you can add your own filters classes.
  *
- * @author Rimantas R. <rickus@ninepoint.consulting>
+ * @author Rimantas R. <eteris@gmail.com>
  */
 class Optional
 {
+    /** @var array<FilterInterface> */
     private array $filters = [];
 
     public function __construct(
@@ -54,12 +60,20 @@ class Optional
     public function addFilters(array $filters): self
     {
         foreach ($filters as $filter) {
-            if ($filter instanceof FilterInterface) {
+            if ($filter instanceof FilterInterface && !in_array($filter, $this->filters)) {
                 $this->filters[] = $filter;
             }
         }
 
         return $this;
+    }
+
+    /**
+     * @return array<FilterInterface>
+     */
+    public function getFilters(): array
+    {
+        return $this->filters;
     }
 
     public function orDefault(mixed $default): mixed

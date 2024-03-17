@@ -1,6 +1,8 @@
 <?php
 
-include_once 'FilterInterface.php';
+namespace Optional\Filters;
+
+use Optional\Interfaces\FilterInterface;
 
 class IsNullFilter implements FilterInterface
 {
