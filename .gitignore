@@ -27,6 +27,7 @@ testem.log
 plenty.php
 composer.lock
 .php-cs-fixer.cache
+.phpunit.result.cache
 
 # should be fixed in VM
 /ui-backend

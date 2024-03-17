@@ -29,6 +29,10 @@ final class OptionalTest extends TestCase
         $optional = new Optional($value);
 
         $this->assertSame($expectedResult, $optional->value());
+
+        $optional = Optional::new($value);
+
+        $this->assertSame($expectedResult, $optional->value());
     }
 
     public function valuesData(): array

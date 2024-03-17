@@ -25,6 +25,11 @@ class Optional
     ) {
     }
 
+    public static function new(mixed $value): self
+    {
+        return new Optional($value);
+    }
+
     public function withFilter(FilterInterface $filter): self
     {
         $this->withFilters([$filter]);
