@@ -7,13 +7,15 @@ Additionally to this check you can add your own filter class to check for exampl
 ```PHP
 <?php
 
-include 'Optional.php';
-include 'ZeroIntFilter.php';
+use Optional\Optional;
+use Optional\Filters\ZeroIntFilter;
+
+require_once 'vendor/autoload.php';
 
 $optional = new Optional(rand(0, 1));
 
 printf(
-    'value: %s',
+    "value: %s\n",
     $optional
         ->withFilter(new ZeroIntFilter())
         ->orDefault('empty')
