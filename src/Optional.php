@@ -2,8 +2,6 @@
 
 namespace Optional;
 
-include_once '../vendor/autoload.php';
-
 use Optional\Filters\IsNullFilter;
 use Optional\Interfaces\FilterInterface;
 use Optional\Exceptions\EmptyValueException;
@@ -20,9 +18,8 @@ class Optional
     /** @var array<FilterInterface> */
     private array $filters = [];
 
-    public function __construct(
-        private mixed $value,
-    ) {
+    public function __construct(private mixed $value)
+    {
     }
 
     public static function new(mixed $value): self
@@ -65,7 +62,10 @@ class Optional
     public function addFilters(array $filters): self
     {
         foreach ($filters as $filter) {
-            if ($filter instanceof FilterInterface && !in_array($filter, $this->filters)) {
+            if (
+                $filter instanceof FilterInterface &&
+                !in_array($filter, $this->filters)
+            ) {
                 $this->filters[] = $filter;
             }
         }
